@@ -1,31 +1,36 @@
 ﻿using Business.Abstract;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
     public class CarManager : ICarService
     {
-        ICarDal _carService;
+        ICarDal _carDal;
 
         public CarManager(ICarDal carService)
         {
-            _carService = carService;
+            _carDal = carService;
         }
 
-        public List<Car> GetAll()
+        public void Add(Car car)
         {
-            return _carService.GetAll();
+            if (car.DailyPrice > 0)
+            {
+                _carDal.Add(car);
+                Console.WriteLine("Araba eklendi");
+            }
+            else { Console.WriteLine("Günlük fiyat 0 dan büyük olmalı!"); }
         }
 
-        public Car GetById(int id)
+        public List<Car> GetCarsByBrandId(int brandId)
         {
-            return _carService.GetById(id);
+            return _carDal.GetAll(p => p.BrandId == brandId);
+        }
+
+        public List<Car> GetCarsByColorId(int colorId)
+        {
+            return _carDal.GetAll(p => p.ColorId == colorId);
         }
     }
 }
