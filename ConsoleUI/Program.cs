@@ -2,10 +2,41 @@
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 
-CarManager carManager = new CarManager(new EfCarDal());
+//BrandTest();
 
-Car car = new Car { BrandId = 2, ColorId = 1, ModelYear = "2017", DailyPrice = 0, Description = "Yeni Eklenen Araç 2" };
+CarTest();
 
-Console.ReadKey();
+static void CarTest()
+{
+    CarManager carManager = new CarManager(new EfCarDal());
 
-carManager.Add(car);
+    Console.ReadKey();
+
+    //carManager.Delete(new Car { Id = 1 });
+
+    //carManager.Update(new Car { Id = 3, ColorId = 2 });
+
+    //carManager.Add(new Car
+    //{
+    //    BrandId = 5,
+    //    ColorId = 1,
+    //    DailyPrice = 200,
+    //    ModelYear = "1980",
+    //    Description = "Eski bir tofaş"
+    //});
+
+    foreach (var item in carManager.GetCarDetails())
+    {
+        Console.WriteLine(item.ColorName);
+    }
+}
+
+static void BrandTest()
+{
+    BrandManager brandManager = new BrandManager(new EfBrandDal());
+
+    foreach (var item in brandManager.GetAll())
+    {
+        Console.WriteLine(item.Name);
+    }
+}
