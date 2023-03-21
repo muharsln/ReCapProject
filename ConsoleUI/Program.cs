@@ -2,41 +2,20 @@
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 
-//BrandTest();
+RentalManager rentalManager = new RentalManager(new EfRentalDal());
 
-CarTest();
-
-static void CarTest()
+var result = rentalManager.Add(new Rental
 {
-    CarManager carManager = new CarManager(new EfCarDal());
+    CarId = 4,
+    CustomerId = 1,
+    RentDate = "20.03.2023"
+});
 
-    Console.ReadKey();
-
-    //carManager.Delete(new Car { Id = 1 });
-
-    //carManager.Update(new Car { Id = 3, ColorId = 2 });
-
-    //carManager.Add(new Car
-    //{
-    //    BrandId = 5,
-    //    ColorId = 1,
-    //    DailyPrice = 200,
-    //    ModelYear = "1980",
-    //    Description = "Eski bir tofaş"
-    //});
-
-    foreach (var item in carManager.GetCarDetails())
-    {
-        Console.WriteLine(item.ColorName);
-    }
+if (result.Success)
+{
+    Console.WriteLine(result.Message);
 }
-
-static void BrandTest()
+else
 {
-    BrandManager brandManager = new BrandManager(new EfBrandDal());
-
-    foreach (var item in brandManager.GetAll())
-    {
-        Console.WriteLine(item.Name);
-    }
+    Console.WriteLine(result.Message);
 }
