@@ -8,6 +8,7 @@ namespace Business.Abstract
         IResult Add(Customer customer);
         IResult Update(Customer customer);
         IResult Delete(Customer customer);
+        IDataResult<Customer> GetById(int id);
         IDataResult<List<Customer>> GetAll();
     }
 }
