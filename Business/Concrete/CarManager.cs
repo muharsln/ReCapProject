@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
-using Core.Result;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Result;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -15,17 +17,11 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
-            if (car.DailyPrice > 0)
-            {
-                _carDal.Add(car);
-                return new SuccessResult();
-            }
-            else
-            {
-                return new ErrorResult("Arabanın günlük kiralama fiyatı 0 dan yüksek olmalıdır.");
-            }
+            _carDal.Add(car);
+            return new SuccessResult();
         }
 
         public IResult Delete(Car car)

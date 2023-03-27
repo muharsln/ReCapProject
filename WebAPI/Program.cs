@@ -1,5 +1,8 @@
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Business.Abstract;
 using Business.Concrete;
+using Business.DependencyResolvers.Autofac;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 
@@ -11,24 +14,13 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-// Car
-builder.Services.AddSingleton<ICarService, CarManager>();
-builder.Services.AddSingleton<ICarDal, EfCarDal>();
-// Brand
-builder.Services.AddSingleton<IBrandService, BrandManager>();
-builder.Services.AddSingleton<IBrandDal, EfBrandDal>();
-// Color
-builder.Services.AddSingleton<IColorService, ColorManager>();
-builder.Services.AddSingleton<IColorDal, EfColorDal>();
-// Customer
-builder.Services.AddSingleton<ICustomerService, CustomerManager>();
-builder.Services.AddSingleton<ICustomerDal, EfCustomerDal>();
-// Rental
-builder.Services.AddSingleton<IRentalService, RentalManager>();
-builder.Services.AddSingleton<IRentalDal, EfRentalDal>();
-// User
-builder.Services.AddSingleton<IUserService, UserManager>();
-builder.Services.AddSingleton<IUserDal, EfUserDal>();
+// IOC Container Autofac yapılandırması
+builder.Host
+       .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+       .ConfigureContainer<ContainerBuilder>(builder =>
+       {
+           builder.RegisterModule(new AutofacBusinessModule());
+       });
 
 var app = builder.Build();
 
