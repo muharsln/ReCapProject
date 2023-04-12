@@ -1,25 +1,24 @@
 ﻿using Business.Abstract;
-using Core.Entities.Concrete;
-using Microsoft.AspNetCore.Http;
+using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class CarImagesController : ControllerBase
     {
-        IUserService _userService;
+        ICarImageService _carImageService;
 
-        public UsersController(IUserService userService)
+        public CarImagesController(ICarImageService carImageService)
         {
-            _userService = userService;
+            _carImageService = carImageService;
         }
 
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _userService.GetAll();
+            var result = _carImageService.GetAll();
             if (result.Success)
             {
                 return Ok(result);
@@ -28,9 +27,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(User user)
+        public IActionResult Add([FromForm(Name = "Image")] IFormFile file, [FromForm] CarImage carImage)
         {
-            var result = _userService.Add(user);
+            var result = _carImageService.Add(file, carImage);
             if (result.Success)
             {
                 return Ok(result);
@@ -39,9 +38,10 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(User user)
+        public IActionResult Delete(CarImage carImage)
         {
-            var result = _userService.Delete(user);
+            var image = _carImageService.GetImageById(carImage.Id).Data;
+            var result = _carImageService.Delete(image);
             if (result.Success)
             {
                 return Ok(result);
@@ -50,9 +50,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("update")]
-        public IActionResult Update(User user)
+        public IActionResult Update([FromForm(Name = "Image")] IFormFile file, [FromForm] CarImage carImage)
         {
-            var result = _userService.Update(user);
+            var result = _carImageService.Update(file, carImage);
             if (result.Success)
             {
                 return Ok(result);
