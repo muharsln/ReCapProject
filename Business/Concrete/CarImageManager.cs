@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Helper.FileTool;
@@ -50,11 +51,13 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        [CacheAspect]
         public IDataResult<List<CarImage>> GetAll()
         {
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll());
         }
 
+        [CacheAspect]
         public IDataResult<List<CarImage>> GetCarId(int id)
         {
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(p => p.CarId == id));
@@ -71,6 +74,7 @@ namespace Business.Concrete
         }
 
 
+        [CacheAspect]
         public IDataResult<CarImage> GetImageById(int imgId)
         {
             return new SuccessDataResult<CarImage>(_carImageDal.Get(p => p.Id == imgId));
