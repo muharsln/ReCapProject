@@ -24,9 +24,10 @@ builder.Host
            builder.RegisterModule(new AutofacBusinessModule());
        });
 
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowOrigin", build => build.WithOrigins("http://localhost:3000"));
+    options.AddPolicy("AllowOrigin", build => build.WithOrigins("http://localhost:4200"));
 });
 
 var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
@@ -59,7 +60,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 // Bu adresten gelen her türlü isteğe izin ver
-app.UseCors(build => build.WithOrigins("http://localhost:3000").AllowAnyHeader());
+app.UseCors(build => build.WithOrigins("http://localhost:4200").AllowAnyHeader());
 
 app.UseHttpsRedirection();
 
